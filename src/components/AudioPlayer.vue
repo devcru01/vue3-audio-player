@@ -1,6 +1,12 @@
 <template>
   <div class="audio__player">
     <div class="audio__player-play" @click="togglePlayer">
+      <img
+          :src="option_.coverImage ? option_.coverImage : CoverImageDefault"
+          :class="`${
+          isPlaying && option_.coverRotate ? 'audio__player-spin-anim' : ''
+        }`"
+      />
       <div class="audio__player-play-icon">
         <img :src="isPlaying ? IconPause : IconPlay" />
       </div>
@@ -10,42 +16,41 @@
     </div>
     <div class="audio__player-progress-container">
       <div
-        ref="audioProgressWrap"
-        class="audio__player-progress-wrap"
-        @click.stop="handleClickProgressWrap"
+          ref="audioProgressWrap"
+          class="audio__player-progress-wrap"
+          @click.stop="handleClickProgressWrap"
       >
         <div
-          ref="audioProgress"
-          class="audio__player-progress"
-          :style="{
+            ref="audioProgress"
+            class="audio__player-progress"
+            :style="{
             backgroundColor: option_.progressBarColor,
           }"
         />
         <div
-          ref="audioProgressPoint"
-          class="audio__player-progress-point"
-          :style="{
+            ref="audioProgressPoint"
+            class="audio__player-progress-point"
+            :style="{
             backgroundColor: option_.indicatorColor,
             boxShadow: `0 0 10px 0 ${option_.indicatorColor}`,
           }"
-          @panstart="handleProgressPanStart"
-          @panend="handleProgressPanEnd"
-          @panmove="handleProgressPanMove"
+            @panstart="handleProgressPanStart"
+            @panend="handleProgressPanEnd"
+            @panmove="handleProgressPanMove"
         />
       </div>
       <div class="audio__player-time">
-        <span>{{ `${formatSecond(currentTime)} ` }}</span>
-        <span>{{ `${totalTimeStr}` }}</span>
+        <span>{{ `${formatSecond(currentTime)} / ${totalTimeStr}` }}</span>
       </div>
     </div>
     <audio
-      ref="audioPlayer"
-      :src="option_.src"
-      @ended="onAudioEnded"
-      @play="onAudioPlay"
-      @pause="onAudioPause"
-      @loadedmetadata="onLoadMetaData"
-      @timeupdate="onTimeUpdate"
+        ref="audioPlayer"
+        :src="option_.src"
+        @ended="onAudioEnded"
+        @play="onAudioPlay"
+        @pause="onAudioPause"
+        @loadedmetadata="onLoadMetaData"
+        @timeupdate="onTimeUpdate"
     ></audio>
   </div>
 </template>
@@ -65,8 +70,8 @@ import Core from '@any-touch/core'
 import Pan from '@any-touch/pan'
 import { AudioPlayerOption, AudioPlayerOptionDefault } from './types'
 import { formatSecond } from '../utils/util'
-import IconPlay from '../assets/images/play.svg'
-import IconPause from '../assets/images/pause.svg'
+import IconPlay from '../assets/images/play.png'
+import IconPause from '../assets/images/pause.png'
 import CoverImageDefault from '../assets/images/cover.png'
 
 const mergeOption = (option: AudioPlayerOption): AudioPlayerOption => {
@@ -76,9 +81,9 @@ const mergeOption = (option: AudioPlayerOption): AudioPlayerOption => {
     coverImage: option.coverImage || AudioPlayerOptionDefault.coverImage,
     coverRotate: option.coverRotate || AudioPlayerOptionDefault.coverRotate,
     progressBarColor:
-      option.progressBarColor || AudioPlayerOptionDefault.progressBarColor,
+        option.progressBarColor || AudioPlayerOptionDefault.progressBarColor,
     indicatorColor:
-      option.indicatorColor || AudioPlayerOptionDefault.indicatorColor,
+        option.indicatorColor || AudioPlayerOptionDefault.indicatorColor,
   }
 }
 
@@ -124,8 +129,8 @@ export default defineComponent({
         return
       }
       const offsetLeft =
-        (audioPlayer.value.currentTime / audioPlayer.value.duration) *
-        audioProgressWrap.value.offsetWidth
+          (audioPlayer.value.currentTime / audioPlayer.value.duration) *
+          audioProgressWrap.value.offsetWidth
       state.currentTime = audioPlayer.value.currentTime
       audioProgress.value.style.width = `${offsetLeft}px`
       setPointPosition(offsetLeft)
@@ -144,14 +149,14 @@ export default defineComponent({
     }
     const play = () => {
       audioPlayer.value
-        .play()
-        .then(() => {
-          startTimer()
-          setTotalTime(audioPlayer.value.duration)
-        })
-        .catch((error: any) => {
-          emit('play-error', error)
-        })
+          .play()
+          .then(() => {
+            startTimer()
+            setTotalTime(audioPlayer.value.duration)
+          })
+          .catch((error: any) => {
+            emit('play-error', error)
+          })
     }
     const pause = () => {
       audioPlayer.value.pause()
@@ -195,7 +200,7 @@ export default defineComponent({
     }
     const setPointPosition = (offsetLeft: number) => {
       audioProgressPoint.value.style.left = `${
-        offsetLeft - audioProgressPoint.value.offsetWidth / 2
+          offsetLeft - audioProgressPoint.value.offsetWidth / 2
       }px`
     }
     const handleProgressPanStart = (event: any) => {
@@ -220,7 +225,7 @@ export default defineComponent({
       setPointPosition(offsetLeft)
       audioProgress.value.style.width = `${offsetLeft}px`
       state.currentTime =
-        (offsetLeft / audioProgressWrap.value.offsetWidth) * state.totalTime
+          (offsetLeft / audioProgressWrap.value.offsetWidth) * state.totalTime
       emit('progress-move', event)
     }
 
@@ -230,7 +235,7 @@ export default defineComponent({
         return
       }
       state.currentTime =
-        (offsetX / audioProgressWrap.value.offsetWidth) * state.totalTime
+          (offsetX / audioProgressWrap.value.offsetWidth) * state.totalTime
       audioPlayer.value.currentTime = state.currentTime
       setPointPosition(offsetX)
       audioProgress.value.style.width = `${offsetX}px`
@@ -238,14 +243,14 @@ export default defineComponent({
       emit('progress-click', event)
     }
     watch(
-      () => props.option,
-      (newValue, oldValue) => {
-        option_.value = mergeOption(newValue)
-        nextTick(() => {
-          play()
-        })
-      },
-      { deep: true },
+        () => props.option,
+        (newValue, oldValue) => {
+          option_.value = mergeOption(newValue)
+          nextTick(() => {
+            play()
+          })
+        },
+        { deep: true },
     )
     onMounted(() => {
       toucher = new Core(document.getElementById('app') || undefined, {
@@ -305,18 +310,19 @@ export default defineComponent({
   border-radius: 9999px;
 }
 .audio__player-play-icon {
+  position: absolute;
   top: 1.8rem;
   left: 1.8rem;
-  background: rgba(8, 114, 186, 0.2);
+  background: #f0f0f0;
   border-radius: 9999px;
   display: flex;
   align-items: center;
-  padding: 2rem;
+  padding: 0.5rem 0.5rem;
   opacity: 0.8;
 }
 .audio__player-play-icon img {
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 9999px;
 }
 
@@ -347,31 +353,30 @@ export default defineComponent({
   border-radius: 3px;
 }
 
-/*.audio__player-progress-point {*/
-/*  position: absolute;*/
-/*  left: -8px;*/
-/*  top: 50%;*/
-/*  width: 16px;*/
-/*  height: 16px;*/
-/*  border-radius: 50%;*/
-/*  margin-top: -8px;*/
-/*}*/
+.audio__player-progress-point {
+  position: absolute;
+  left: -8px;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  margin-top: -8px;
+}
 
-/*.audio__player-progress-point:after {*/
-/*  content: '';*/
-/*  position: absolute;*/
-/*  top: 50%;*/
-/*  left: 50%;*/
-/*  width: 8px;*/
-/*  height: 8px;*/
-/*  margin: -4px 0 0 -4px;*/
-/*  background: #fff;*/
-/*  border-radius: 50%;*/
-/*}*/
+.audio__player-progress-point:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  background: #fff;
+  border-radius: 50%;
+}
 .audio__player-time {
-  margin-top: 0.6rem;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 0.2rem;
+  margin-left: auto;
 }
 .audio__player-time span {
   font-size: 0.875rem;
@@ -384,15 +389,15 @@ export default defineComponent({
   font-weight: bold;
   color: #3c3c3c;
 }
-/*@keyframes audio__player-spin {*/
-/*  from {*/
-/*    transform: rotate(0deg);*/
-/*  }*/
-/*  to {*/
-/*    transform: rotate(360deg);*/
-/*  }*/
-/*}*/
-/*.audio__player-spin-anim {*/
-/*  animation: audio__player-spin 5s linear infinite;*/
-/*}*/
+@keyframes audio__player-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.audio__player-spin-anim {
+  animation: audio__player-spin 5s linear infinite;
+}
 </style>
