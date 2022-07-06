@@ -14,7 +14,11 @@
     "emitDeclarationOnly": true,
     "declarationDir": "./dist/types",
     "isolatedModules": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": [
+      "vite/client", // if using vite
+      // ...
+    ]
   },
   "include": [
     "src/**/*.ts",
