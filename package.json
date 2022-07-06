@@ -32,7 +32,10 @@
   "types": "./dist/types/index.d.ts",
   "files": [
     "dist",
-    "src"
+    "src",
+    "tsconfig.json",
+    "vite.config.ts"
+
   ],
   "scripts": {
     "build": "rimraf dist && vue-tsc && vite build",
