@@ -1,12 +1,6 @@
 <template>
   <div class="audio__player">
     <div class="audio__player-play" @click="togglePlayer">
-      <img
-        :src="option_.coverImage ? option_.coverImage : CoverImageDefault"
-        :class="`${
-          isPlaying && option_.coverRotate ? 'audio__player-spin-anim' : ''
-        }`"
-      />
       <div class="audio__player-play-icon">
         <img :src="isPlaying ? IconPause : IconPlay" />
       </div>
@@ -40,7 +34,8 @@
         />
       </div>
       <div class="audio__player-time">
-        <span>{{ `${formatSecond(currentTime)} / ${totalTimeStr}` }}</span>
+        <span>{{ `${formatSecond(currentTime)} ` }}</span>
+        <span>{{ `${totalTimeStr}` }}</span>
       </div>
     </div>
     <audio
@@ -70,8 +65,8 @@ import Core from '@any-touch/core'
 import Pan from '@any-touch/pan'
 import { AudioPlayerOption, AudioPlayerOptionDefault } from './types'
 import { formatSecond } from '../utils/util'
-import IconPlay from '../assets/images/play.png'
-import IconPause from '../assets/images/pause.png'
+import IconPlay from '../assets/images/play.svg'
+import IconPause from '../assets/images/pause.svg'
 import CoverImageDefault from '../assets/images/cover.png'
 
 const mergeOption = (option: AudioPlayerOption): AudioPlayerOption => {
@@ -310,19 +305,18 @@ export default defineComponent({
   border-radius: 9999px;
 }
 .audio__player-play-icon {
-  position: absolute;
   top: 1.8rem;
   left: 1.8rem;
-  background: #f0f0f0;
+  background: rgba(8, 114, 186, 0.2);
   border-radius: 9999px;
   display: flex;
   align-items: center;
-  padding: 0.5rem 0.5rem;
+  padding: 2rem;
   opacity: 0.8;
 }
 .audio__player-play-icon img {
-  width: 2rem;
-  height: 2rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 9999px;
 }
 
@@ -353,30 +347,31 @@ export default defineComponent({
   border-radius: 3px;
 }
 
-.audio__player-progress-point {
-  position: absolute;
-  left: -8px;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  margin-top: -8px;
-}
+/*.audio__player-progress-point {*/
+/*  position: absolute;*/
+/*  left: -8px;*/
+/*  top: 50%;*/
+/*  width: 16px;*/
+/*  height: 16px;*/
+/*  border-radius: 50%;*/
+/*  margin-top: -8px;*/
+/*}*/
 
-.audio__player-progress-point:after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 8px;
-  height: 8px;
-  margin: -4px 0 0 -4px;
-  background: #fff;
-  border-radius: 50%;
-}
+/*.audio__player-progress-point:after {*/
+/*  content: '';*/
+/*  position: absolute;*/
+/*  top: 50%;*/
+/*  left: 50%;*/
+/*  width: 8px;*/
+/*  height: 8px;*/
+/*  margin: -4px 0 0 -4px;*/
+/*  background: #fff;*/
+/*  border-radius: 50%;*/
+/*}*/
 .audio__player-time {
-  margin-top: 0.2rem;
-  margin-left: auto;
+  margin-top: 0.6rem;
+  display: flex;
+  justify-content: space-between;
 }
 .audio__player-time span {
   font-size: 0.875rem;
@@ -389,15 +384,15 @@ export default defineComponent({
   font-weight: bold;
   color: #3c3c3c;
 }
-@keyframes audio__player-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.audio__player-spin-anim {
-  animation: audio__player-spin 5s linear infinite;
-}
+/*@keyframes audio__player-spin {*/
+/*  from {*/
+/*    transform: rotate(0deg);*/
+/*  }*/
+/*  to {*/
+/*    transform: rotate(360deg);*/
+/*  }*/
+/*}*/
+/*.audio__player-spin-anim {*/
+/*  animation: audio__player-spin 5s linear infinite;*/
+/*}*/
 </style>
