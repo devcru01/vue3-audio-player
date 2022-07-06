@@ -10,13 +10,13 @@
     "vue3 audio player",
     "audio player"
   ],
-  "homepage": "https://github.com/RealCoolSnow/vue3-audio-player/blob/main/README.md",
+  "homepage": "https://github.com/devcru01/vue3-audio-player/blob/main/README.md",
   "bugs": {
-    "url": "https://github.com/RealCoolSnow/vue3-audio-player/issues"
+    "url": "https://github.com/devcru01/vue3-audio-player/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RealCoolSnow/vue3-audio-player.git"
+    "url": "git+https://github.com/devcru01/vue3-audio-player.git"
   },
   "license": "MIT",
   "author": "CoolSnow(coolsnow2020@gmail.com)",
